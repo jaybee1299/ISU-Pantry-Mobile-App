@@ -1,0 +1,11 @@
+id,category,audience,question,answer,source
+1,general,both,What is the School Street Food Pantry?,The School Street Food Pantry provides food support to college students in the Bloomington-Normal area,Illinois State University
+2,eligibility,pantry_user,Who can use the School Street Food Pantry?,The pantry serves college students in the Bloomington-Normal area,Illinois State University
+3,location,both,Where is the School Street Food Pantry?,The pantry is located at Normal First United Methodist Church at 211 N. School Street in Normal,Illinois State University
+4,services,pantry_user,What can students get from the pantry?,Students can receive food and personal care items from the pantry,Illinois State University
+5,cost,pantry_user,Does it cost money to use the pantry?,Food and personal care items are provided to eligible students at no charge,Illinois State University
+6,volunteer,volunteer,Can students volunteer at the pantry?,The School Street Food Pantry has volunteer opportunities for students and community members,Illinois State University
+7,volunteer,volunteer,What do volunteers do at the pantry?,Volunteer work can include organizing donations and preparing or packaging food for distribution,Illinois State University
+8,volunteer,volunteer,How can I arrange a time to volunteer?,Prospective volunteers can contact the School Street Food Pantry to arrange a volunteer time,Illinois State University
+9,services,pantry_user,Does the pantry provide personal care products?,The pantry provides personal care items in addition to food,Illinois State University
+10,general,both,Who operates the pantry?,The School Street Food Pantry is supported and operated by volunteers including students and community members,Illinois State University
