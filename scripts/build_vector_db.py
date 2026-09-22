@@ -7,7 +7,7 @@ from sentence_transformers import SentenceTransformer
 
 # Project locations
 ROOT = Path(__file__).resolve().parents[1]
-DATA_PATH = ROOT / "pantry_faq_clean.csv"
+DATA_PATH = ROOT / "data" / "pantry_faq_clean.csv"
 DB_PATH = ROOT / "vector_db"
 
 COLLECTION_NAME = "pantry_faq"
