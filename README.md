@@ -177,3 +177,57 @@ Planned development includes:
 - Expanding the reference dataset with additional verified information
 
 As these features are developed, the status of the application-generated datasets will be updated in this repository.
+
+## AI Assistant Prototype
+
+A working prototype of the ISU School Pantry AI Assistant has been developed using Python and Flask.
+
+The assistant uses the cleaned pantry FAQ dataset as its knowledge source. The FAQ records are converted into vector embeddings using Sentence Transformers and stored in a ChromaDB vector database. When a user submits a question, the application searches the vector database for the most relevant pantry information and returns the matching response.
+
+### Prototype Components
+
+- `app/app.py` - Flask application that handles user questions and displays responses.
+- `scripts/clean_data.py` - Cleans and prepares the pantry FAQ dataset.
+- `scripts/build_vector_db.py` - Creates vector embeddings and stores them in ChromaDB.
+- `pantry_faq_clean.csv` - Cleaned pantry FAQ/reference dataset.
+- `vector_db/` - Persistent ChromaDB vector database used by the assistant.
+
+### Current Prototype Features
+
+- Web-based pantry assistant interface
+- Natural-language question input
+- Semantic search using vector embeddings
+- ChromaDB vector storage
+- Responses based on verified pantry reference information
+- Source attribution for returned information
+
+### Running the Prototype
+
+Install the required dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+Build the vector database:
+
+```bash
+python scripts/build_vector_db.py
+```
+
+Start the application:
+
+```bash
+python app/app.py
+```
+
+The application runs on port `5000`.
+
+### Example
+
+A user can ask:
+
+> How can I volunteer?
+
+The assistant searches the pantry reference data and returns the most relevant verified response.
+
