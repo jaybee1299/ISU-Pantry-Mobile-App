@@ -2,26 +2,98 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>ISU School Pantry Assistant</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ISU School Pantry</title>
   <link rel="stylesheet" href="/static/style.css">
 </head>
+
 <body>
+
+  <!-- Prototype 2 Signup Section -->
+  <main class="card">
+    <h1>ISU School Pantry</h1>
+
+    <p class="intro">
+      Sign up as a pantry user or volunteer, or use the AI assistant
+      to ask questions about pantry services.
+    </p>
+
+    <h2>Pantry Signup</h2>
+
+    <label for="signup-type">I want to sign up as:</label>
+    <select id="signup-type">
+      <option value="pantry_user">Pantry User</option>
+      <option value="volunteer">Volunteer</option>
+    </select>
+
+    <label for="name">Name</label>
+    <input
+      type="text"
+      id="name"
+      placeholder="Enter your name"
+    >
+
+    <label for="email">Email</label>
+    <input
+      type="email"
+      id="email"
+      placeholder="Enter your email"
+    >
+
+    <label for="phone">Phone</label>
+    <input
+      type="tel"
+      id="phone"
+      placeholder="Enter your phone number"
+    >
+
+    <label for="availability">Availability / Notes</label>
+    <textarea
+      id="availability"
+      rows="3"
+      placeholder="Example: Available Saturday mornings"
+    ></textarea>
+
+    <button id="signup-button">Submit Signup</button>
+
+    <section id="signup-result" class="result hidden">
+      <h2>Signup Status</h2>
+      <p id="signup-message"></p>
+    </section>
+  </main>
+
+
+  <!-- Existing AI Assistant -->
   <main class="card">
     <h1>ISU School Pantry Assistant</h1>
+
     <p class="intro">
-      Ask a question about pantry services, eligibility, registration, location,
-      or volunteer opportunities.
+      Ask a question about pantry services, eligibility, registration,
+      location, or volunteer opportunities.
     </p>
 
     <div class="quick-actions">
-      <button data-question="Who can use the pantry?">Eligibility</button>
-      <button data-question="Where is the pantry located?">Location</button>
-      <button data-question="How can I volunteer?">Volunteer</button>
+      <button data-question="Who can use the pantry?">
+        Eligibility
+      </button>
+
+      <button data-question="Where is the pantry located?">
+        Location
+      </button>
+
+      <button data-question="How can I volunteer?">
+        Volunteer
+      </button>
     </div>
 
     <label for="question">Your question</label>
-    <textarea id="question" rows="4" placeholder="Example: How can I volunteer?"></textarea>
+
+    <textarea
+      id="question"
+      rows="4"
+      placeholder="Example: How can I volunteer?"
+    ></textarea>
+
     <button id="ask">Ask Assistant</button>
 
     <section id="result" class="result hidden">
@@ -31,43 +103,187 @@
     </section>
   </main>
 
+
 <script>
-const questionBox = document.getElementById("question");
-const askButton = document.getElementById("ask");
-const result = document.getElementById("result");
-const answer = document.getElementById("answer");
-const source = document.getElementById("source");
 
-document.querySelectorAll("[data-question]").forEach(btn => {
-  btn.addEventListener("click", () => {
-    questionBox.value = btn.dataset.question;
-  });
-});
+//
+// Pantry / Volunteer Signup
+//
 
-askButton.addEventListener("click", async () => {
-  const question = questionBox.value.trim();
-  if (!question) return;
+const signupButton =
+  document.getElementById("signup-button");
 
-  answer.textContent = "Searching verified pantry information...";
-  source.textContent = "";
-  result.classList.remove("hidden");
+const signupResult =
+  document.getElementById("signup-result");
 
-  const response = await fetch("/api/ask", {
-    method: "POST",
-    headers: {"Content-Type": "application/json"},
-    body: JSON.stringify({question})
-  });
+const signupMessage =
+  document.getElementById("signup-message");
 
-  const data = await response.json();
 
-  if (!response.ok) {
-    answer.textContent = data.error || "Something went wrong.";
+signupButton.addEventListener("click", async () => {
+
+  const signupType =
+    document.getElementById("signup-type").value;
+
+  const name =
+    document.getElementById("name").value.trim();
+
+  const email =
+    document.getElementById("email").value.trim();
+
+  const phone =
+    document.getElementById("phone").value.trim();
+
+  const availability =
+    document.getElementById("availability").value.trim();
+
+
+  signupResult.classList.remove("hidden");
+
+
+  if (!name || !email) {
+
+    signupMessage.textContent =
+      "Please enter your name and email.";
+
     return;
   }
 
-  answer.textContent = data.answer;
-  source.textContent = data.source ? `Source: ${data.source}` : "";
+
+  signupMessage.textContent =
+    "Submitting signup...";
+
+
+  const response = await fetch("/api/signup", {
+
+    method: "POST",
+
+    headers: {
+      "Content-Type": "application/json"
+    },
+
+    body: JSON.stringify({
+      signup_type: signupType,
+      name: name,
+      email: email,
+      phone: phone,
+      availability: availability
+    })
+
+  });
+
+
+  const data = await response.json();
+
+
+  if (!response.ok) {
+
+    signupMessage.textContent =
+      data.error || "Something went wrong.";
+
+    return;
+  }
+
+
+  signupMessage.textContent =
+    data.message;
+
+
+  // Clear form after successful signup
+  document.getElementById("name").value = "";
+  document.getElementById("email").value = "";
+  document.getElementById("phone").value = "";
+  document.getElementById("availability").value = "";
+
 });
+
+
+//
+// Existing AI Assistant
+//
+
+const questionBox =
+  document.getElementById("question");
+
+const askButton =
+  document.getElementById("ask");
+
+const result =
+  document.getElementById("result");
+
+const answer =
+  document.getElementById("answer");
+
+const source =
+  document.getElementById("source");
+
+
+document.querySelectorAll("[data-question]").forEach(btn => {
+
+  btn.addEventListener("click", () => {
+
+    questionBox.value =
+      btn.dataset.question;
+
+  });
+
+});
+
+
+askButton.addEventListener("click", async () => {
+
+  const question =
+    questionBox.value.trim();
+
+  if (!question) return;
+
+
+  answer.textContent =
+    "Searching verified pantry information...";
+
+  source.textContent = "";
+
+  result.classList.remove("hidden");
+
+
+  const response = await fetch("/api/ask", {
+
+    method: "POST",
+
+    headers: {
+      "Content-Type": "application/json"
+    },
+
+    body: JSON.stringify({
+      question: question
+    })
+
+  });
+
+
+  const data = await response.json();
+
+
+  if (!response.ok) {
+
+    answer.textContent =
+      data.error || "Something went wrong.";
+
+    return;
+  }
+
+
+  answer.textContent =
+    data.answer;
+
+  source.textContent =
+    data.source
+      ? `Source: ${data.source}`
+      : "";
+
+});
+
 </script>
+
 </body>
 </html>
