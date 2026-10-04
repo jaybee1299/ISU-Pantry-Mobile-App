@@ -231,3 +231,62 @@ A user can ask:
 
 The assistant searches the pantry reference data and returns the most relevant verified response.
 
+---
+
+## Task 2 – Second Working Prototype
+
+The second working prototype expands the original AI pantry assistant by adding a web-based signup system for pantry users and volunteers.
+
+### New Prototype Features
+
+- Pantry user and volunteer signup form
+- Role selection for pantry users and volunteers
+- Collection of name, email, phone number, availability, and additional notes
+- Form validation and confirmation message after submission
+- Persistent signup storage using SQLite
+- Existing AI pantry assistant remains available
+- AI responses continue to use the cleaned FAQ dataset, Sentence Transformers, and ChromaDB
+
+### Design Alternatives
+
+Flask was selected for the prototype because it is lightweight, works well with Python, and allows the application and AI components to be integrated without requiring a larger framework. Django could be considered for a future version if the application requires built-in authentication, administration, and additional database features.
+
+SQLite was selected for signup data because it is simple, requires no separate database server, and provides persistent storage for the current prototype. PostgreSQL or MySQL would be better alternatives for a larger production system with many simultaneous users.
+
+ChromaDB continues to be used for the AI assistant because it supports vector similarity search and integrates with Sentence Transformers.
+
+### Scalability
+
+The current prototype is intended for demonstration and small-scale testing. As usage increases, the Flask application could be deployed to a cloud server, and the SQLite signup database could be migrated to PostgreSQL or another production database.
+
+The application structure also allows the user interface, application logic, operational database, and AI retrieval components to be expanded independently.
+
+### Data Design
+
+The project now uses two main types of data:
+
+1. **Reference data** – The cleaned pantry FAQ dataset used by the AI assistant.
+2. **Operational data** – Signup information submitted by pantry users and volunteers.
+
+The FAQ data is converted into vector embeddings and stored in ChromaDB for semantic retrieval. Signup records are stored separately in SQLite because they are structured operational records rather than AI reference information.
+
+### Persistence
+
+The prototype uses two forms of persistent storage:
+
+- **ChromaDB** stores vectorized pantry FAQ information for the AI assistant.
+- **SQLite** stores pantry user and volunteer signup submissions.
+
+Keeping these data stores separate allows each database to serve a different purpose. ChromaDB supports semantic search, while SQLite supports structured signup records.
+
+### Task 2 Prototype Flow
+
+1. A user opens the web application.
+2. The user chooses whether they are signing up as a pantry user or volunteer.
+3. The user enters the requested signup information.
+4. The Flask backend validates and processes the submission.
+5. The signup record is saved in SQLite.
+6. The application displays a confirmation message.
+7. Users can also submit pantry questions to the AI assistant.
+8. The AI assistant searches ChromaDB and returns relevant information from the verified pantry FAQ dataset.
+
