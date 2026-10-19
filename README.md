@@ -203,6 +203,14 @@ The assistant uses the cleaned pantry FAQ dataset as its knowledge source. The F
 
 ### Running the Prototype
 
+To run this project locally, make sure Python and Git are installed.
+
+First, clone the GitHub repository and open the project folder:
+
+```bash
+git clone https://github.com/jaybee1299/ISU-Pantry-Mobile-App.git
+cd ISU-Pantry-Mobile-App
+```
 Install the required dependencies:
 
 ```bash
